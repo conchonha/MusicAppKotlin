@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_background"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_22sdp"
+        android:layout_marginRight="@dimen/_24sdp">
+
+        <TextView
+            android:id="@+id/mTxtTitile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:gravity="center"
+            android:text="@string/lbl_playing_mussic"
+            android:textColor="@color/white"
+            android:textFontWeight="700"
+            android:textSize="@dimen/_24ssp"
+            android:textStyle="bold" />
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/mPageIncatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mTxtTitile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_36sdp"
+            app:piv_animationType="swap"
+            app:piv_dynamicCount="true"
+            app:piv_selectedColor="@color/white"
+            app:piv_unselectedColor="@color/grey"
+            app:piv_viewPager="@id/mViewPagerPlaying" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:id="@+id/mViewPagerPlaying"
+            android:layout_above="@+id/mRelativeBottom"
+            android:layout_below="@+id/mPageIncatorView" />
+
+        <RelativeLayout
+            android:id="@+id/mRelativeBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="@dimen/_47sdp">
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:progressTint="@color/white"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_24sdp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:id="@+id/mImgPrevious"
+                android:layout_marginTop="@dimen/_32sdp"
+                android:src="@drawable/ic_skip_previous_white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/mImgPause"
+                android:layout_marginTop="@dimen/_32sdp"
+                android:src="@drawable/ic_pause_white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_marginTop="@dimen/_32sdp"
+                android:id="@+id/mImgNext"
+                android:layout_marginRight="@dimen/_24sdp"
+                android:src="@drawable/ic_skip_next_white" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

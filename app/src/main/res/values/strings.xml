@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MusicOfflineKotlin</string>
+    <string name="channel_name">Notification channel</string>
+    <string name="channel_description">Notification channel music</string>
+    <string name="dialog_box">Thông báo</string>
+    <string name="btn_ok">Đồng ý</string>
+    <string name="lbl_loading">Vui lòng chờ</string>
+    <string name="lbl_home">Trang chủ</string>
+    <string name="lbl_library">Thư viện</string>
+    <string name="lbl_search">Tìm kiếm</string>
+    <string name="lbl_recommended_to_you">Đề Xuất Cho Bạn</string>
+    <string name="lbl_my_playlist">Danh Sách Nhạc Của Tôi</string>
+    <string name="lbl_playing_mussic">Trình Phát Nhạc</string>
+    <string name="lbl_erro_song">Bài hát không tồn tại</string>
+</resources>
