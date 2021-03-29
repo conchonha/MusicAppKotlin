@@ -14,19 +14,20 @@ import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.ui.activity.playing_song.PlayingSongViewModel
 import com.example.musicofflinekotlin.utils.Constain
 import kotlinx.android.synthetic.main.layout_fragment_info.*
+import kotlinx.android.synthetic.main.layout_fragment_info.view.*
 
 class InfoFragment : BaseFragment(),View.OnClickListener{
     private var mPlayingSongViewModel : PlayingSongViewModel? = null
     private var mSong : Song? = null
+    private var mView : View? = null
 
     override fun initViewModel() {
         mPlayingSongViewModel = ViewModelProvider(activity!!,MyApplication.Holder.factory!!)[PlayingSongViewModel::class.java]
 
         mPlayingSongViewModel!!.getDataSongMutableLive().observe(viewLifecycleOwner, Observer {
-            song->{
-                mSong = song
-                updateUi(mSong)
-            }
+            song-> mSong = song
+                   updateUi(mSong)
+
         })
     }
 
@@ -34,11 +35,11 @@ class InfoFragment : BaseFragment(),View.OnClickListener{
         mImgInfo.setImageURI(Uri.parse(Constain.pathUriImgAlbum+song!!.mIdAlbum))
         mTxtName.text = song.mTitle
         mTxtSinger.text = song.mArtist
-        mImgFavorite.setImageResource(if(song.mFavourite == 0) R.drawable.ic_favorite_white else R.drawable.ic_favorite)
+        mImgFavorite1.setImageResource(if(song.mFavourite == 1) R.drawable.ic_favorite_white else R.drawable.ic_favorite)
     }
 
     override fun init() {
-
+        mView!!.findViewById<View>(R.id.mImgFavorite1).setOnClickListener(this)
     }
 
 
@@ -51,12 +52,17 @@ class InfoFragment : BaseFragment(),View.OnClickListener{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.layout_fragment_info,container,false)
+        mView = inflater.inflate(R.layout.layout_fragment_info,container,false)
+        return mView
     }
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.mImgFavorite->null
+            R.id.mImgFavorite1->{
+                mSong!!.mFavourite = if(mSong!!.mFavourite == 0) 1 else 0
+                mPlayingSongViewModel!!.updateSong(mSong!!)
+                mImgFavorite1.setImageResource(if(mSong!!.mFavourite == 1) R.drawable.ic_favorite_white else R.drawable.ic_favorite)
+            }
         }
     }
 }

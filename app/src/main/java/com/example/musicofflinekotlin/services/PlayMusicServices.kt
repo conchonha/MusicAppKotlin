@@ -25,7 +25,10 @@ class PlayMusicServices : Service() {
     private var mSharedPreferences: SharedPreferences? = null
     private var mList: List<Song>? = null
     private var mPosition = 0
-    private var mMediaPlayer: MediaPlayer? = null
+
+    companion object{
+        var mMediaPlayer: MediaPlayer? = null
+    }
 
 
     override fun onBind(intent: Intent?): IBinder? {
