@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_background"
-    >
+    android:background="@drawable/img_background">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,12 +38,12 @@
             app:piv_viewPager="@id/mViewPagerPlaying" />
 
         <androidx.viewpager.widget.ViewPager
+            android:id="@+id/mViewPagerPlaying"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:id="@+id/mViewPagerPlaying"
             android:layout_above="@+id/mRelativeBottom"
-            android:layout_below="@+id/mPageIncatorView" />
+            android:layout_below="@+id/mPageIncatorView"
+            android:layout_marginTop="@dimen/_6sdp" />
 
         <RelativeLayout
             android:id="@+id/mRelativeBottom"
@@ -53,44 +52,65 @@
             android:layout_alignParentBottom="true"
             android:paddingBottom="@dimen/_47sdp">
 
-            <SeekBar
-                android:layout_width="match_parent"
-                android:progressTint="@color/white"
-                android:id="@+id/mSeekBar"
-                android:progressBackgroundTint="@color/white"
-                android:thumbTint="@color/white"
-                android:layout_height="wrap_content" />
-
-            <ImageView
+            <TextView
+                android:id="@+id/mTxtTimeStar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_24sdp"
-                android:foreground="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:id="@+id/mImgPrevious"
-                android:layout_marginTop="@dimen/_32sdp"
-                android:src="@drawable/ic_skip_previous_white" />
+                android:textColor="@color/white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@+id/mImgPause"
-                android:layout_marginTop="@dimen/_32sdp"
-                android:src="@drawable/ic_pause_white" />
-
-            <ImageView
+            <TextView
+                android:id="@+id/mTxtTimeDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:clickable="true"
+                android:textColor="@color/white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp" />
+
+            <SeekBar
+                android:id="@+id/mSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mTxtTimeStar"
+                android:progressBackgroundTint="@color/white"
+                android:progressTint="@color/white"
+                android:thumbTint="@color/white" />
+
+            <ImageView
+                android:id="@+id/mImgPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mSeekBar"
+                android:layout_marginLeft="@dimen/_24sdp"
                 android:layout_marginTop="@dimen/_32sdp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/ic_skip_previous_white" />
+
+            <ImageView
+                android:id="@+id/mImgPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/mSeekBar"
+                android:layout_marginTop="@dimen/_32sdp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/ic_pause_white" />
+
+            <ImageView
                 android:id="@+id/mImgNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/mSeekBar"
+                android:layout_marginTop="@dimen/_32sdp"
                 android:layout_marginRight="@dimen/_24sdp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:src="@drawable/ic_skip_next_white" />
         </RelativeLayout>
 

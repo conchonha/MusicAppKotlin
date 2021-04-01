@@ -2,17 +2,18 @@ package com.example.musicofflinekotlin.utils
 
 class Constain {
     companion object {
-        val pathUriImgAlbum: String = "content://media/external/audio/albumart/"
-        val sendActionBroadCast: String = "sendActionBroadCast"
-        val keyActionPlay: String = "keyActionPlay"
-        val keyActionPause: String = "keyActionPause"
-        val keyActionNext: String = "keyActionNext"
-        val keyActionPrevious: String = "keyActionPrevious"
-        val keyAction: String ="keyAction"
-        val keySongList: String = "keySongList"
-        val keyPosition: String = "keyPosition"
-        val APP_NAME_DATABASE: String = "MusicOffLine"
-        val CHANNEL_ID  = "CHANNEL_ID";
-        val NOTIFICATION_ID : Int = 123;
+        const val keyActionClose: String = "keyActionClose"
+        const val pathUriImgAlbum: String = "content://media/external/audio/albumart/"
+        const val sendActionBroadCastServices: String = "sendActionBroadCastServices"
+        const val sendActionBroadCastActivity: String = "sendActionBroadCastActivity"
+        const val keyActionPlay: String = "keyActionPlay"
+        const val keyActionNext: String = "keyActionNext"
+        const val keyActionPrevious: String = "keyActionPrevious"
+        const val keyAction: String ="keyAction"
+        const val keySongList: String = "keySongList"
+        const val keyPosition: String = "keyPosition"
+        const val APP_NAME_DATABASE: String = "MusicOffLine"
+        const val CHANNEL_ID  = "CHANNEL_ID";
+        const val NOTIFICATION_ID : Int = 123;
     }
 }

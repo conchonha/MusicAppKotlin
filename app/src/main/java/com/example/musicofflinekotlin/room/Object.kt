@@ -15,7 +15,7 @@ import com.example.musicofflinekotlin.utils.Helpers
     var mUpdateTime : String ? = null
 
     constructor(updateTime : String ){
-        mCreateTime = Helpers().getTimeToDay()
+        mCreateTime = Helpers.getTimeToDay()
         mUpdateTime = updateTime
     }
 

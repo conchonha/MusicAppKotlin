@@ -12,4 +12,5 @@
     <string name="lbl_my_playlist">Danh Sách Nhạc Của Tôi</string>
     <string name="lbl_playing_mussic">Trình Phát Nhạc</string>
     <string name="lbl_erro_song">Bài hát không tồn tại</string>
+    <string name="lbl_lyrics_null">Không Tìm Thấy Lời Bài Hát</string>
 </resources>

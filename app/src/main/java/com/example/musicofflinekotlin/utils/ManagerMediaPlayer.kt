@@ -57,14 +57,16 @@ class ManagerMediaPlayer {
             pathUriImageAlbum = Constain.pathUriImgAlbum + albumId
 
             var pathLyrics = "defaul"
-            val lyrics = path.substring(path.lastIndexOf('-') + 1).replace(".mp3", "")
+            var lyrics = path.substring(path.lastIndexOf('-') + 1,path.length).replace(".mp3", "")
+            lyrics = lyrics.substring(lyrics.lastIndexOf('/')+1)
+
             if (path.contains("/")) {
-                pathLyrics = path.substring(0, path.lastIndexOf('/'))
+                pathLyrics = path.substring(0, path.lastIndexOf('/'))+ "/.lyric/$lyrics.lrc"
                 ///storage/emulated/0/Download/Lyrics/6927558
             }
             mListSong!!.add(
                 Song(
-                    Helpers().getTimeToDay(),
+                    Helpers.getTimeToDay(),
                     path,
                     title,
                     duration,

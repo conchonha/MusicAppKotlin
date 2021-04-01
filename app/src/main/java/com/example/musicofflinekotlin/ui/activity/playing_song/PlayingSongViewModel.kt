@@ -21,8 +21,8 @@ class PlayingSongViewModel(application: Application) : AndroidViewModel(applicat
         return mSongLiveData
     }
 
-    fun saveSongListSharedPreferences(songList : String){
-        mSharedPreferences.saveSongList(songList)
+    fun saveSongListSharedPreferences(songList : String?){
+        mSharedPreferences.saveSongList(songList!!)
     }
 
     fun updateSong(song: Song){

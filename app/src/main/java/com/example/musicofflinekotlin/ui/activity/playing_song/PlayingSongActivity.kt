@@ -1,24 +1,25 @@
 package com.example.musicofflinekotlin.ui.activity.playing_song
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.musicofflinekotlin.R
 import com.example.musicofflinekotlin.app.MyApplication
 import com.example.musicofflinekotlin.base.BaseActivity
+import com.example.musicofflinekotlin.model.OnSeekBarChangeListener
 import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.services.PlayMusicServices
 import com.example.musicofflinekotlin.utils.Constain
 import com.example.musicofflinekotlin.utils.Helpers
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_playing_song.*
 
 class PlayingSongActivity : BaseActivity(), View.OnClickListener {
@@ -26,10 +27,15 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener {
     private var mSongList: List<Song>? = null
     private var mPosition: Int = 0
     private var mAdapter: PlayingSongViewpagerAdapter? = null
-    private var mCheckPlayMedia = false
-    private var mRunnable : Runnable? = null
+    private var mRunnable: Runnable? = null
     private var mHandler: Handler = Handler()
+    private var mCheckServices = false
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        registerReceiver(broadcastReceiver, IntentFilter(Constain.sendActionBroadCastActivity))
+    }
     override fun getContentView(): Int {
         return R.layout.activity_playing_song
     }
@@ -45,38 +51,36 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener {
         handlingData()
         initSeekBar()
         setAdapterViewpager()
+        onCompletionListener()
+    }
+
+    private fun onCompletionListener() {
+        var runnable = Runnable {
+            mSeekBar.max = PlayMusicServices.mMediaPlayer!!.duration
+            mTxtTimeDuration.text = Helpers.getTimeMusicFromMediaplayerDuration(PlayMusicServices.mMediaPlayer!!.duration)
+
+            mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener() {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean){
+                    super.onProgressChanged(seekBar, progress, fromUser)
+                    if (fromUser) {
+                        PlayMusicServices.mMediaPlayer!!.seekTo(progress)
+                        mSeekBar.progress = progress
+                    }
+                }
+            })
+
+            PlayMusicServices.mMediaPlayer!!.setOnCompletionListener {
+                onMusicNext()
+            }
+        }
+        Handler().postDelayed(runnable, 500)
     }
 
     private fun initSeekBar() {
-         mRunnable = Runnable {
-            mSeekBar.max = PlayMusicServices.mMediaPlayer!!.duration
+        mRunnable = Runnable {
+            mTxtTimeStar.text =
+                Helpers.getTimeMusicFromMediaplayerDuration(PlayMusicServices.mMediaPlayer!!.currentPosition)
             mSeekBar.progress = PlayMusicServices.mMediaPlayer!!.currentPosition
-            mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                    Log.d("AAA", "initSeekBar: progress${i}")
-                    Log.d("AAA", "initSeekBar: max${mSeekBar.max}")
-                    if(mSeekBar.progress == mSeekBar.max){
-                        onNextMusicPree()
-                        Log.d("AAA", "initSeekBar: bang nhau")
-                    }
-                    if (b) {
-                        PlayMusicServices.mMediaPlayer!!.seekTo(i)
-                        mSeekBar.progress = i
-                    }
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                }
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                }
-            })
-//             Log.d("AAA", "initSeekBar: progress${mSeekBar.progress}")
-//             Log.d("AAA", "initSeekBar: max${mSeekBar.max}")
-//             if(mSeekBar.progress == mSeekBar.max){
-//                 onNextMusicPree()
-//                 Log.d("AAA", "initSeekBar: bang nhau")
-//             }
             mHandler.postDelayed(mRunnable!!, 1000)
         }
         mHandler.postDelayed(mRunnable!!, 500)
@@ -92,20 +96,20 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener {
         if (intent.hasExtra(Constain.keySongList) && intent.hasExtra(Constain.keyPosition)) {
             Helpers.stopService(this)
 
-            mCheckPlayMedia = true
-            val type = object : TypeToken<List<Song>>() {}.type
-            var songList: String = intent.getStringExtra(Constain.keySongList).toString()
-
-            mSongList = Gson().fromJson(songList, type)
+            mSongList = Helpers.getSongListFromString(intent.getStringExtra(Constain.keySongList))
             mPosition = intent.getIntExtra(Constain.keyPosition, 0)
 
-            mPlayingSongViewModel!!.saveSongListSharedPreferences(songList)
+            mPlayingSongViewModel!!.saveSongListSharedPreferences(intent.getStringExtra(Constain.keySongList))
             mPlayingSongViewModel!!.setDataSongMutableLive(mSongList!![mPosition])
 
-            var intentServices = Intent(this, PlayMusicServices::class.java)
-            intentServices.putExtra(Constain.keyPosition, mPosition)
-            ContextCompat.startForegroundService(this, intentServices)
+            onStartServices()
         }
+    }
+
+    private fun onStartServices() {
+        var intentServices = Intent(this, PlayMusicServices::class.java)
+        intentServices.putExtra(Constain.keyPosition, mPosition)
+        ContextCompat.startForegroundService(this, intentServices)
     }
 
     override fun initViewModel() {
@@ -118,35 +122,45 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.mImgPause -> {
-                mCheckPlayMedia = !mCheckPlayMedia
-                mImgPause.setImageResource(if (mCheckPlayMedia) R.drawable.ic_pause_white else R.drawable.ic_play_white)
-                sendBoardCast(Constain.keyActionPlay)
+                if(mCheckServices){
+                    onStartServices()
+                }
+                mImgPause.setImageResource(if (PlayMusicServices.mMediaPlayer!!.isPlaying) R.drawable.ic_play_white else R.drawable.ic_pause_white)
+                Helpers.sendBoardCastServices(Constain.keyActionPlay, this)
             }
-            R.id.mImgNext -> {
-                onNextMusicPree()
-            }
+            R.id.mImgNext -> onMusicNext()
             R.id.mImgPrevious -> {
-                mCheckPlayMedia = true
-                mImgPause.setImageResource(if (mCheckPlayMedia) R.drawable.ic_pause_white else R.drawable.ic_play_white)
-                mPosition =
-                    if (mPosition >= 1 && mSongList!!.size > 1) --mPosition else mSongList!!.size - 1
-                mPlayingSongViewModel!!.setDataSongMutableLive(mSongList!![mPosition])
-                sendBoardCast(Constain.keyActionPrevious)
+                mImgPause.setImageResource(R.drawable.ic_pause_white)
+                Helpers.sendBoardCastServices(Constain.keyActionPrevious, this)
             }
         }
     }
 
-    private fun onNextMusicPree(){
-        mCheckPlayMedia = true
-        mImgPause.setImageResource(if (mCheckPlayMedia) R.drawable.ic_pause_white else R.drawable.ic_play_white)
-        mPosition = if (mPosition >= mSongList!!.size - 1) 0 else ++mPosition
-        mPlayingSongViewModel!!.setDataSongMutableLive(mSongList!![mPosition])
-        sendBoardCast(Constain.keyActionNext)
+    private fun onMusicNext() {
+        mImgPause.setImageResource(R.drawable.ic_pause_white)
+        Helpers.sendBoardCastServices(Constain.keyActionNext, this)
+        onCompletionListener()
     }
 
-    private fun sendBoardCast(action: String) {
-        var intent1 = Intent(Constain.sendActionBroadCast)
-        intent1.putExtra(Constain.keyAction, action)
-        sendBroadcast(intent1)
+    private var broadcastReceiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            var action : String? = null
+            if(intent!!.action == Constain.sendActionBroadCastActivity){
+                mPosition = intent.getIntExtra(Constain.keyPosition,0)
+                mPlayingSongViewModel!!.setDataSongMutableLive(mSongList!![mPosition])
+                if(intent.hasExtra(Constain.keyAction)){
+                    action = intent.getStringExtra(Constain.keyAction)
+                    if(action == Constain.keyActionClose){
+                        mCheckServices = true
+                        mImgPause.setImageResource(R.drawable.ic_play_white)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(broadcastReceiver)
     }
 }
