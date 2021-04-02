@@ -13,4 +13,7 @@
     <string name="lbl_playing_mussic">Trình Phát Nhạc</string>
     <string name="lbl_erro_song">Bài hát không tồn tại</string>
     <string name="lbl_lyrics_null">Không Tìm Thấy Lời Bài Hát</string>
+    <string name="search_hint1">Tìm bài hát, playlist</string>
+    <string name="lbl_recent_searches">Các tìm kiếm gần đây</string>
+    <string name="lbl_delete_history">Xóa Các Tìm Kiếm</string>
 </resources>

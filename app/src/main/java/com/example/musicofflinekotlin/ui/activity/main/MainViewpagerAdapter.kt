@@ -12,8 +12,8 @@ import com.example.musicofflinekotlin.ui.fragment.main.fragment_search.FragmentS
 class MainViewpagerAdapter(manager: FragmentManager, context: Context) : FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private var mListFragment : ArrayList<Fragment> = arrayListOf(
         FragmentHome(),
-        FragmentLibrary(),
-        FragmentSearch()
+        FragmentSearch(),
+        FragmentLibrary()
     )
     private var mListTitle : ArrayList<String> = arrayListOf(
         context.getString(R.string.lbl_home),

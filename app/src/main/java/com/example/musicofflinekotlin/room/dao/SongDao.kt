@@ -7,13 +7,19 @@ import com.example.musicofflinekotlin.room.table.Song
 @Dao
 interface SongDao {
     @Query("SELECT * FROM song")
-   fun getListSong() : LiveData<List<Song>>
+    fun getListSong(): LiveData<List<Song>>
 
     @Query("SELECT * FROM song WHERE playList = 1")
-    fun getListPlayList() : LiveData<List<Song>>
+    fun getListPlayList(): LiveData<List<Song>>
 
     @Query("SELECT * FROM song WHERE favourite = 1")
-    fun getListMyFavourite() : LiveData<List<Song>>
+    fun getListMyFavourite(): LiveData<List<Song>>
+
+    @Query("SELECT * FROM song WHERE history = 1")
+    fun getListMyHistory(): LiveData<List<Song>>
+
+    @Query("SELECT * FROM song WHERE title LIKE '%' || :search || '%'")
+    fun searchSong(search: String?): LiveData<List<Song>>
 
     @Query("DELETE FROM song")
     fun deleteAll()

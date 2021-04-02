@@ -8,7 +8,7 @@ import com.example.musicofflinekotlin.room.dao.SongDao
 import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.utils.Constain
 
-@Database(entities = [Song::class], version = 1)
+@Database(entities = [Song::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun songDao(): SongDao
 

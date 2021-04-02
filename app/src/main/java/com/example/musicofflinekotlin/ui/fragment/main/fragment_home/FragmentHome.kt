@@ -63,6 +63,10 @@ class FragmentHome : BaseFragment(), OnItemClickSongListener {
         startActivity(intent)
     }
 
+    override fun clickDeleteItem(songList: List<Song>, position: Int) {
+
+    }
+
     private fun setupRecyclerView(recyclerView: RecyclerView, songList: List<Song>) {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager =

@@ -61,6 +61,7 @@ class LyricFragment : BaseFragment() {
             mTxtLyrics.text = stringBuilder.toString()
         } catch (e: IOException) {
             Log.d("AA", "readFileLyrics: ${e.message}")
+            mTxtLyrics.text = getString(R.string.lbl_lyrics_null)
         }
     }
 

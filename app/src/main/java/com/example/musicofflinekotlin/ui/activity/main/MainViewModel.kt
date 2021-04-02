@@ -28,4 +28,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     fun getListPlayList() : LiveData<List<Song>>{
         return mMainRepositories!!.getListPlayList()
     }
+
+    fun getListMyHistory() : LiveData<List<Song>>{
+        return mMainRepositories!!.getListMyHistory()
+    }
+
+    fun updateSong(song: Song){
+        mMainRepositories!!.updateSong(song)
+    }
+
+    fun searchSong(search : String?) : LiveData<List<Song>>{
+        return mMainRepositories!!.searchSong(search)
+    }
 }

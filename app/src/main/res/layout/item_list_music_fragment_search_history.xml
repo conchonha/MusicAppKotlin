@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground">
+
+        <RelativeLayout
+            android:id="@+id/mRelativeBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_toLeftOf="@+id/mImgClose">
+
+            <ImageView
+                android:id="@+id/mImgAlbum"
+                android:layout_width="@dimen/_33sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/mTxtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_toRightOf="@+id/mImgAlbum"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mTxtSinger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mTxtTitle"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_toRightOf="@+id/mImgAlbum"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_10ssp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/mImgClose"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_close" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/grey" />
+    </RelativeLayout>
+</LinearLayout>

@@ -74,7 +74,7 @@ class ManagerMediaPlayer {
                     album,
                     artist,
                     pathUriImageAlbum,
-                    lyrics,
+                    0,
                     pathLyrics,
                     0,
                     0

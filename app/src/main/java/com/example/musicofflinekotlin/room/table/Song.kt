@@ -28,8 +28,8 @@ class Song : Object,Serializable{
     @ColumnInfo(name = "pathUriImageAlbum")
     var mPathUriImage : String? = null
 
-    @ColumnInfo(name = "lyrics")
-    var mLyrics : String? = null
+    @ColumnInfo(name = "history")
+    var mHistory : Int? = null
 
     @ColumnInfo(name = "pathLyrics")
     var mPathLyrics: String? = null
@@ -43,7 +43,7 @@ class Song : Object,Serializable{
     constructor()
 
     constructor(updateTime: String, path : String, title : String,duration: String,idAlbum : String,
-                nameAlbum : String,artist : String,pathUriImageAlbum : String,lyrics : String,pathLyrics : String,
+                nameAlbum : String,artist : String,pathUriImageAlbum : String,history : Int,pathLyrics : String,
                 favourite : Int,playList : Int) : super(updateTime){
         this.mPath = path
         this.mTitle = title
@@ -52,7 +52,7 @@ class Song : Object,Serializable{
         this.mNameAlbum = nameAlbum
         this.mArtist = artist
         this.mPathUriImage = pathUriImageAlbum
-        this.mLyrics = lyrics
+        this.mHistory = history
         this.mPathLyrics = pathLyrics
         this.mFavourite = favourite
         this.mPlayList = playList
