@@ -81,15 +81,6 @@ class ManagerMediaPlayer {
                 )
             )
             cursor.moveToNext()
-            Log.d(TAG, "data: $path")
-            Log.d(TAG, "title: $title")
-            Log.d(TAG, "duration: $duration")
-            Log.d(TAG, "albumId: $albumId")
-            Log.d(TAG, "album: $album")
-            Log.d(TAG, "artist: $artist")
-            Log.d(TAG, "uriImage: $pathUriImageAlbum")
-            Log.d(TAG, "lyrics: $lyrics")
-            Log.d(TAG, "pathLyrics: $pathLyrics")
         }
         cursor.close()
     }

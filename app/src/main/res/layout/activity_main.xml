@@ -11,6 +11,7 @@
         android:id="@+id/mTabLayout"
         android:layout_height="wrap_content"
         app:tabTextColor="@color/grey"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
         app:tabSelectedTextColor="@color/white"
         app:tabIndicatorColor="@color/white"
         app:tabIconTint="@color/tab_icon_tin"

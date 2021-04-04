@@ -2,8 +2,6 @@ package com.example.musicofflinekotlin.ui.fragment.main.fragment_search
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -13,7 +11,6 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicofflinekotlin.R
 import com.example.musicofflinekotlin.app.MyApplication
@@ -32,19 +29,24 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
     private var mMainViewModel: MainViewModel? = null
     private var mSongListHistory: List<Song>? = null
     private var mAdapter = AdapterRecycler()
+    private var mBoolean = true
 
     override fun initViewModel() {
-        mMainViewModel = ViewModelProvider(activity!!, MyApplication.Holder.factory!!)[MainViewModel::class.java]
+        mMainViewModel =
+            ViewModelProvider(activity!!, MyApplication.Holder.factory!!)[MainViewModel::class.java]
 
         mMainViewModel!!.getListMyHistory().observe(viewLifecycleOwner, Observer { songList ->
-            mSongListHistory = songList
-            mTxt1.visibility = VISIBLE
-            mTxt2.visibility = VISIBLE
-            initRecyclerView(mRecyclerViewHistory, songList, true)
+            if(mBoolean){
+                mSongListHistory = songList
+                mTxt1.visibility = VISIBLE
+                mTxt2.visibility = VISIBLE
+                mAdapter.setupData(songList, this@FragmentSearch, true)
+            }
         })
     }
 
     override fun init() {
+        initRecyclerView()
         listenerEditText()
     }
 
@@ -54,18 +56,20 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     super.onTextChanged(s, start, before, count)
                     if (count == 0) {
-                        Log.d("AAA", "onTextChanged: remove 0")
+                        mBoolean = true
                         mTxt1.visibility = VISIBLE
                         mTxt2.visibility = VISIBLE
-                        initRecyclerView(mRecyclerViewHistory, mSongListHistory!!, true)
+                       mAdapter.setupData(mSongListHistory!!, this@FragmentSearch, true)
                     } else {
+                        mBoolean = false
                         mMainViewModel!!.searchSong(s.toString())
                             .observe(viewLifecycleOwner, Observer { songList ->
-                                mTxt1.visibility = GONE
-                                mTxt2.visibility = GONE
-                                initRecyclerView(mRecyclerViewHistory, songList, false)
+                                if(!mBoolean){
+                                    mTxt1.visibility = GONE
+                                    mTxt2.visibility = GONE
+                                    mAdapter.setupData(songList, this@FragmentSearch, false)
+                                }
                             })
-                        Log.d("AAA", "onTextChanged: remove 1")
                     }
                 }
             })
@@ -82,20 +86,15 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
         return mView
     }
 
-    private fun initRecyclerView(
-        recyclerView: RecyclerView,
-        songList: List<Song>,
-        boolean: Boolean
-    ) {
+    private fun initRecyclerView() {
+        var recyclerView = mView!!.findViewById<RecyclerView>(R.id.mRecyclerViewHistory)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(context, 1)
-
-        mAdapter.setupData(songList, this, boolean)
         recyclerView.adapter = mAdapter
-        mAdapter.notifyDataSetChanged()
     }
 
     override fun clickOpenItem(songList: List<Song>, position: Int) {
+        mBoolean = true
         var song = songList[position]
         song.mHistory = 1
         mMainViewModel!!.updateSong(song)
@@ -108,6 +107,7 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
     }
 
     override fun clickDeleteItem(songList: List<Song>, position: Int) {
+        mBoolean = true
         var song = songList[position]
         song.mHistory = 0
         mMainViewModel!!.updateSong(song)
