@@ -16,4 +16,8 @@
     <string name="search_hint1">Tìm bài hát, playlist</string>
     <string name="lbl_recent_searches">Các tìm kiếm gần đây</string>
     <string name="lbl_delete_history">Xóa Các Tìm Kiếm</string>
+    <string name="lbl_song">Bài hát</string>
+    <string name="lbl_album">Album</string>
+    <string name="lbl_play_list">Danh sách phát</string>
+    <string name="lbl_like">Yêu thích</string>
 </resources>

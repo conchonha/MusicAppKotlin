@@ -50,7 +50,7 @@ abstract class BaseActivity : AppCompatActivity(){
         return true
     }
 
-    protected fun requestPermission(){
+    private fun requestPermission(){
         ActivityCompat.requestPermissions(this, mPermissionRequest.toTypedArray(),mRequestCode)
     }
 
