@@ -19,6 +19,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_column="0"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_marginRight="@dimen/_30sdp"
@@ -55,6 +57,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
             android:layout_column="1"
             android:layout_row="0"
             android:layout_rowWeight="1"
@@ -96,6 +100,8 @@
             android:layout_column="0"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
             android:layout_marginRight="@dimen/_30sdp"
             app:cardBackgroundColor="@color/h7C37D5"
             app:cardCornerRadius="@dimen/_15sdp">
@@ -133,6 +139,8 @@
             android:layout_row="1"
             android:layout_column="1"
             android:layout_marginTop="@dimen/_82sdp"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
             android:layout_rowWeight="1"
             app:cardBackgroundColor="@color/h7C37D5"
             app:cardCornerRadius="@dimen/_15sdp">

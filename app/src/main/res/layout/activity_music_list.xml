@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_background"
+    tools:context=".ui.activity.music_list.MusicListActivity">
+
+    <RelativeLayout
+        android:id="@+id/mRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/mTxtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:text="@string/lbl_song"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mTxtTitle"
+            android:layout_centerHorizontal="true"
+            android:text="@string/lbl_all"
+            android:textColor="@color/hB6B6B6"
+            android:textSize="@dimen/_14ssp" />
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mCardViewPlayRandom"
+        android:layout_width="@dimen/_191sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_below="@+id/mRelative"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/h00FF38"
+        app:cardCornerRadius="@dimen/_23sdp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/lbl_play_random"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mCardViewPlayRandom"
+        android:layout_marginLeft="@dimen/_22sdp"
+        android:layout_above="@+id/mRelativeBottom"
+        android:layout_marginBottom="@dimen/_24sdp"
+        android:layout_marginTop="@dimen/_31sdp"
+        android:layout_marginRight="@dimen/_14sdp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_41sdp"
+        android:id="@+id/mRelativeBottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/h262626">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/mImgAvatar"
+            android:layout_width="@dimen/_33sdp"
+            android:layout_height="@dimen/_33sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:background="#000"
+            app:riv_corner_radius="@dimen/_17sdp"
+            app:riv_mutate_background="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_9sdp"
+            android:layout_toLeftOf="@+id/mLinear1"
+            android:layout_toRightOf="@+id/mImgAvatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Hai chu da tung"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="nhu viet"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mLinear1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:src="@drawable/ic_skip_previous_white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:src="@drawable/ic_pause_white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:src="@drawable/ic_skip_next_white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

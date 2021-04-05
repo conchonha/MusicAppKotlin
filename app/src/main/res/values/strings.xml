@@ -20,4 +20,6 @@
     <string name="lbl_album">Album</string>
     <string name="lbl_play_list">Danh sách phát</string>
     <string name="lbl_like">Yêu thích</string>
+    <string name="lbl_all">Tất cả</string>
+    <string name="lbl_play_random">Phát ngẫu nhiên</string>
 </resources>
