@@ -2,6 +2,7 @@ package com.example.musicofflinekotlin.ui.fragment.main.fragment_home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +26,7 @@ class FragmentHome : BaseFragment(), OnItemClickSongListener {
     private var mAdapter: AdapterRecyclerView? = null
 
     override fun initViewModel() {
-        mMainViewModel =
-            ViewModelProvider(activity!!, MyApplication.Holder.factory!!)[MainViewModel::class.java]
+        mMainViewModel = ViewModelProvider(activity!!, MyApplication.Holder.factory!!)[MainViewModel::class.java]
 
         mMainViewModel!!.getListSong().observe(viewLifecycleOwner, Observer { songList ->
             setupRecyclerView(mRecyclerViewRecommended, songList)
@@ -37,30 +37,20 @@ class FragmentHome : BaseFragment(), OnItemClickSongListener {
         })
     }
 
-    override fun init() {
+    override fun init() {}
 
-    }
+    override fun onListenerClicked() {}
 
-    override fun onListenerClicked() {
-
-    }
-
-    override fun getContentView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        var view = inflater.inflate(R.layout.layout_fragment_home, container, false)
-        return view
+    override fun getContentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.layout_fragment_home, container, false)
     }
 
     override fun clickOpenItem(songList: List<Song>, position: Int) {
-        var intent = Intent(context, PlayingSongActivity::class.java)
-
-        intent.putExtra(Constain.keySongList, Gson().toJson(songList))
-        intent.putExtra(Constain.keyPosition, position)
-
-        startActivity(intent)
+        Intent(context, PlayingSongActivity::class.java).apply {
+            putExtra(Constain.keySongList, Gson().toJson(songList))
+            putExtra(Constain.keyPosition, position)
+            startActivity(this)
+        }
     }
 
     override fun clickDeleteItem(songList: List<Song>, position: Int) {
@@ -69,11 +59,9 @@ class FragmentHome : BaseFragment(), OnItemClickSongListener {
 
     private fun setupRecyclerView(recyclerView: RecyclerView, songList: List<Song>) {
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mAdapter = AdapterRecyclerView()
         recyclerView.adapter = mAdapter
         mAdapter!!.initData(songList, this)
-        mAdapter!!.notifyDataSetChanged()
     }
 }

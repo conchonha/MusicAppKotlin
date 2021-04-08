@@ -1,41 +1,48 @@
 package com.example.musicofflinekotlin.ui.activity.playing_song
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.KeyEvent
 import android.view.View
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.musicofflinekotlin.R
 import com.example.musicofflinekotlin.app.MyApplication
 import com.example.musicofflinekotlin.base.BaseActivity
+import com.example.musicofflinekotlin.broadcast.SongBroadCast
+import com.example.musicofflinekotlin.callback.OnListenerBroadCast
 import com.example.musicofflinekotlin.model.OnSeekBarChangeListener
 import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.services.PlayMusicServices
+import com.example.musicofflinekotlin.ui.fragment.music_list.MusicListFragment
 import com.example.musicofflinekotlin.utils.Constain
 import com.example.musicofflinekotlin.utils.Helpers
 import kotlinx.android.synthetic.main.activity_playing_song.*
 
-class PlayingSongActivity : BaseActivity(), View.OnClickListener {
+class PlayingSongActivity : BaseActivity(), View.OnClickListener, OnListenerBroadCast {
     private var mPlayingSongViewModel: PlayingSongViewModel? = null
     private var mSongList: List<Song>? = null
     private var mPosition: Int = 0
     private var mAdapter: PlayingSongViewpagerAdapter? = null
-    private var mRunnable: Runnable? = null
-    private var mHandler: Handler = Handler()
     private var mCheckServices = false
+    private var mSongBroadCast = SongBroadCast()
+
+    companion object {
+        var mRunnable: Runnable? = null
+        var mHandler: Handler = Handler()
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerReceiver(broadcastReceiver, IntentFilter(Constain.sendActionBroadCastActivity))
+        mSongBroadCast.setUpdate(this)
+        registerReceiver(mSongBroadCast, IntentFilter(Constain.sendActionBroadCastActivity))
     }
+
     override fun getContentView(): Int {
         return R.layout.activity_playing_song
     }
@@ -55,12 +62,22 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onCompletionListener() {
+        MusicListFragment.mRunnable?.let {
+            MusicListFragment.mHandler?.removeCallbacks(
+                MusicListFragment.mRunnable!!
+            )
+        }
         var runnable = Runnable {
             mSeekBar.max = PlayMusicServices.mMediaPlayer!!.duration
-            mTxtTimeDuration.text = Helpers.getTimeMusicFromMediaplayerDuration(PlayMusicServices.mMediaPlayer!!.duration)
+            mTxtTimeDuration.text =
+                Helpers.getTimeMusicFromMediaplayerDuration(PlayMusicServices.mMediaPlayer!!.duration)
 
             mSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener() {
-                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean){
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
                     super.onProgressChanged(seekBar, progress, fromUser)
                     if (fromUser) {
                         PlayMusicServices.mMediaPlayer!!.seekTo(progress)
@@ -100,16 +117,18 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener {
             mPosition = intent.getIntExtra(Constain.keyPosition, 0)
 
             mPlayingSongViewModel!!.saveSongListSharedPreferences(intent.getStringExtra(Constain.keySongList))
-            mPlayingSongViewModel!!.setDataSongMutableLive(mSongList!![mPosition])
 
             onStartServices()
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun onStartServices() {
-        var intentServices = Intent(this, PlayMusicServices::class.java)
-        intentServices.putExtra(Constain.keyPosition, mPosition)
-        ContextCompat.startForegroundService(this, intentServices)
+        Intent(this, PlayMusicServices::class.java).apply {
+            putExtra(Constain.keyPosition, mPosition)
+            startForegroundService(this)
+        }
+        onCompletionListener()
     }
 
     override fun initViewModel() {
@@ -119,48 +138,46 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener {
         )[PlayingSongViewModel::class.java]
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.mImgPause -> {
-                if(mCheckServices){
+                if (mCheckServices) {
                     onStartServices()
+                    mCheckServices = false
                 }
-                mImgPause.setImageResource(if (PlayMusicServices.mMediaPlayer!!.isPlaying) R.drawable.ic_play_white else R.drawable.ic_pause_white)
                 Helpers.sendBoardCastServices(Constain.keyActionPlay, this)
             }
             R.id.mImgNext -> onMusicNext()
-            R.id.mImgPrevious -> {
-                mImgPause.setImageResource(R.drawable.ic_pause_white)
-                Helpers.sendBoardCastServices(Constain.keyActionPrevious, this)
-            }
+            R.id.mImgPrevious -> Helpers.sendBoardCastServices(Constain.keyActionPrevious, this)
+
         }
     }
 
     private fun onMusicNext() {
-        mImgPause.setImageResource(R.drawable.ic_pause_white)
         Helpers.sendBoardCastServices(Constain.keyActionNext, this)
         onCompletionListener()
     }
 
-    private var broadcastReceiver : BroadcastReceiver = object : BroadcastReceiver(){
-        override fun onReceive(context: Context?, intent: Intent?) {
-            var action : String? = null
-            if(intent!!.action == Constain.sendActionBroadCastActivity){
-                mPosition = intent.getIntExtra(Constain.keyPosition,0)
-                mPlayingSongViewModel!!.setDataSongMutableLive(mSongList!![mPosition])
-                if(intent.hasExtra(Constain.keyAction)){
-                    action = intent.getStringExtra(Constain.keyAction)
-                    if(action == Constain.keyActionClose){
-                        mCheckServices = true
-                        mImgPause.setImageResource(R.drawable.ic_play_white)
-                    }
-                }
-            }
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(broadcastReceiver)
+        unregisterReceiver(mSongBroadCast)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            setResult(RESULT_OK)
+            finish()
+        }
+        return true
+    }
+
+    override fun onListenerActionClose(position: Int, songList: List<Song>, action: String) {
+        mImgPause.setImageResource(R.drawable.ic_pause_white)
+        if (action == Constain.keyActionClose) {
+            mCheckServices = true
+            mImgPause.setImageResource(R.drawable.ic_play_white)
+        }
+        mPlayingSongViewModel!!.setDataSongMutableLive(songList[position])
     }
 }

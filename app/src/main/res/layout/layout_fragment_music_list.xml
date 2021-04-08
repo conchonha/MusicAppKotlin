@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_41sdp"
+        android:id="@+id/mRelativeBottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/h262626">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/mImgAvatar"
+            android:layout_width="@dimen/_33sdp"
+            android:layout_height="@dimen/_33sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:background="#000"
+            app:riv_corner_radius="@dimen/_17sdp"
+            app:riv_mutate_background="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_9sdp"
+            android:layout_toLeftOf="@+id/mLinear1"
+            android:layout_toRightOf="@+id/mImgAvatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Hai chu da tung"
+                android:id="@+id/mTxtTitle"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="nhu viet"
+                android:id="@+id/mTxtSinger"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mLinear1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:id="@+id/mImgPrevious"
+                android:src="@drawable/ic_skip_previous_white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:id="@+id/mImgPause"
+                android:src="@drawable/ic_pause_white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mImgNext"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:src="@drawable/ic_skip_next_white" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

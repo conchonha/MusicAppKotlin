@@ -24,21 +24,15 @@ class LyricFragment : BaseFragment() {
     private var mView: View? = null
 
     override fun initViewModel() {
-        mPlayingSongViewModel = ViewModelProvider(
-            activity!!,
-            MyApplication.Holder.factory!!
-        )[PlayingSongViewModel::class.java]
+        mPlayingSongViewModel = ViewModelProvider(activity!!, MyApplication.Holder.factory!!)[PlayingSongViewModel::class.java]
 
-        mPlayingSongViewModel!!.getDataSongMutableLive()
-            .observe(viewLifecycleOwner, Observer { song ->
-                mSong = song
+        mPlayingSongViewModel!!.getDataSongMutableLive().observe(viewLifecycleOwner, Observer {
+                song -> mSong = song
                 readFileLyrics()
             })
     }
 
-    override fun init() {
-
-    }
+    override fun init() {}
 
     private fun readFileLyrics() {
         var file = File(mSong!!.mPathLyrics)
@@ -65,15 +59,9 @@ class LyricFragment : BaseFragment() {
         }
     }
 
-    override fun onListenerClicked() {
+    override fun onListenerClicked() {}
 
-    }
-
-    override fun getContentView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun getContentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.layou_fragment_lyric, container, false)
         return mView
     }

@@ -17,16 +17,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicOfflineKotlin">
-        <activity android:name=".ui.activity.music_list.MusicListActivity"></activity>
-        <activity android:name=".ui.activity.splash_activity.SplashActivity">
+        <activity
+            android:name=".ui.activity.music_list.MusicListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.splash_activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.playing_song.PlayingSongActivity" />
-        <activity android:name=".ui.activity.main.MainActivity" />
+        <activity
+            android:name=".ui.activity.playing_song.PlayingSongActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.main.MainActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".services.PlayMusicServices" />
 

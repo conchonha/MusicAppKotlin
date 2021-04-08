@@ -27,13 +27,12 @@ import kotlinx.android.synthetic.main.layout_fragment_search.*
 class FragmentSearch : BaseFragment(), OnItemClickSongListener {
     private var mView: View? = null
     private var mMainViewModel: MainViewModel? = null
-    private var mSongListHistory: List<Song>? = null
+    private var mSongListHistory: List<Song> = listOf()
     private var mAdapter = AdapterRecycler()
     private var mBoolean = true
 
     override fun initViewModel() {
-        mMainViewModel =
-            ViewModelProvider(activity!!, MyApplication.Holder.factory!!)[MainViewModel::class.java]
+        mMainViewModel = ViewModelProvider(activity!!, MyApplication.Holder.factory!!)[MainViewModel::class.java]
 
         mMainViewModel!!.getListMyHistory().observe(viewLifecycleOwner, Observer { songList ->
             if(mBoolean){
@@ -77,11 +76,7 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
 
     override fun onListenerClicked() {}
 
-    override fun getContentView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun getContentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.layout_fragment_search, container, false)
         return mView
     }
@@ -99,11 +94,11 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
         song.mHistory = 1
         mMainViewModel!!.updateSong(song)
 
-        var intent = Intent(context, PlayingSongActivity::class.java)
-        intent.putExtra(Constain.keySongList, Gson().toJson(songList))
-        intent.putExtra(Constain.keyPosition, position)
-
-        startActivity(intent)
+        Intent(context, PlayingSongActivity::class.java).apply {
+            putExtra(Constain.keySongList, Gson().toJson(songList))
+            putExtra(Constain.keyPosition, position)
+            startActivity(this)
+        }
     }
 
     override fun clickDeleteItem(songList: List<Song>, position: Int) {

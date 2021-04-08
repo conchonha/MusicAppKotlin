@@ -30,13 +30,8 @@ class PlayMusicServices : Service() {
         var mMediaPlayer: MediaPlayer? = null
     }
 
-
     override fun onBind(intent: Intent?): IBinder? {
         return null
-    }
-
-    override fun onCreate() {
-        super.onCreate()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -45,6 +40,7 @@ class PlayMusicServices : Service() {
         mPosition = intent!!.getIntExtra(Constain.keyPosition, 0)
         init()
 
+        sendBroadCastPlayingSongActivity(null)
         startForeground(Constain.NOTIFICATION_ID, mNotification!!.mNotification)
         return START_NOT_STICKY
     }
@@ -55,6 +51,7 @@ class PlayMusicServices : Service() {
         mList = mSharedPreferences!!.getSongList()
 
         starMediaPlayWithUri()
+
         starForegroundServices(this,R.drawable.ic_pause_black)
     }
 
@@ -126,9 +123,11 @@ class PlayMusicServices : Service() {
     }
 
     private fun sendBroadCastPlayingSongActivity(action: String?){
-        var intent = Intent(Constain.sendActionBroadCastActivity)
-        intent.putExtra(Constain.keyPosition,mPosition)
-        intent.putExtra(Constain.keyAction,action)
-        sendBroadcast(intent)
+        Intent(Constain.sendActionBroadCastActivity).apply {
+            putExtra(Constain.keyPosition,mPosition)
+            putExtra(Constain.keyAction,action)
+            putExtra(Constain.keySongList,Gson().toJson(mList))
+            sendBroadcast(this)
+        }
     }
 }

@@ -15,5 +15,6 @@ class Constain {
         const val APP_NAME_DATABASE: String = "MusicOffLine"
         const val CHANNEL_ID  = "CHANNEL_ID";
         const val NOTIFICATION_ID : Int = 123;
+        const val REQUEST_CODE = 100
     }
 }

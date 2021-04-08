@@ -14,7 +14,6 @@ import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.ui.activity.playing_song.PlayingSongViewModel
 import com.example.musicofflinekotlin.utils.Constain
 import kotlinx.android.synthetic.main.layout_fragment_info.*
-import kotlinx.android.synthetic.main.layout_fragment_info.view.*
 
 class InfoFragment : BaseFragment(),View.OnClickListener{
     private var mPlayingSongViewModel : PlayingSongViewModel? = null
@@ -26,8 +25,7 @@ class InfoFragment : BaseFragment(),View.OnClickListener{
 
         mPlayingSongViewModel!!.getDataSongMutableLive().observe(viewLifecycleOwner, Observer {
             song-> mSong = song
-                   updateUi(mSong)
-
+            updateUi(mSong)
         })
     }
 
@@ -42,16 +40,9 @@ class InfoFragment : BaseFragment(),View.OnClickListener{
         mView!!.findViewById<View>(R.id.mImgFavorite1).setOnClickListener(this)
     }
 
+    override fun onListenerClicked() {}
 
-    override fun onListenerClicked() {
-
-    }
-
-    override fun getContentView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun getContentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.layout_fragment_info,container,false)
         return mView
     }
