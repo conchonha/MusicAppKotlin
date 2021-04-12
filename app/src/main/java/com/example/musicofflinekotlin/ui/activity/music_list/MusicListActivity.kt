@@ -18,6 +18,7 @@ import com.example.musicofflinekotlin.callback.OnItemClickSongListener
 import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.services.PlayMusicServices
 import com.example.musicofflinekotlin.ui.activity.playing_song.PlayingSongActivity
+import com.example.musicofflinekotlin.ui.dialog.ShowBottomSheetDialog
 import com.example.musicofflinekotlin.utils.Constain
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_music_list.*
@@ -51,6 +52,7 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
 
     private fun updateUi() {
         PlayingSongActivity.mRunnable?.let { PlayingSongActivity.mHandler?.removeCallbacks(it) }
+
         var runnable = Runnable {
             if(PlayMusicServices.mMediaPlayer == null){
                 mRelativeBottom.visibility = GONE
@@ -63,10 +65,12 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
 
     private fun initRecyclerView() {
         var recycler = findViewById<RecyclerView>(R.id.mRecyclerViewMusicList)
-        recycler.setHasFixedSize(true)
-        recycler.layoutManager = GridLayoutManager(this,1)
-        recycler.adapter = mAdapter
-        mAdapter.notifyDataSetChanged()
+        recycler.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(this@MusicListActivity,1)
+            adapter = mAdapter
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -85,7 +89,8 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
     }
 
     override fun clickDeleteItem(songList: List<Song>, position: Int) {
-
+        ShowBottomSheetDialog().show(supportFragmentManager,Constain.keyBottomSheetDialog)
+        mMusicListViewModel!!.setDataSongMutableLive(songList[position])
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

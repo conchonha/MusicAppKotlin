@@ -3,12 +3,14 @@ package com.example.musicofflinekotlin.ui.activity.music_list
 import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicofflinekotlin.R
 import com.example.musicofflinekotlin.callback.OnItemClickSongListener
 import com.example.musicofflinekotlin.room.table.Song
+import com.example.musicofflinekotlin.ui.dialog.ShowBottomSheetDialog
 import com.makeramen.roundedimageview.RoundedImageView
 import com.squareup.picasso.Picasso
 
@@ -27,6 +29,7 @@ class AdapterRecycler : RecyclerView.Adapter<AdapterRecycler.ViewHolder>() {
         var mImgAvatar : RoundedImageView = itemView.findViewById(R.id.mImgAvatar)
         var mTxtTitle : TextView = itemView.findViewById(R.id.mTxtTitle)
         var mTxtSinger : TextView = itemView.findViewById(R.id.mTxtSinger)
+        var mImgMenu : ImageView = itemView.findViewById(R.id.mImgMenu)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,7 +43,7 @@ class AdapterRecycler : RecyclerView.Adapter<AdapterRecycler.ViewHolder>() {
         holder.mTxtTitle.text = song.mTitle
         Picasso.get().load(Uri.parse(song.mPathUriImage)).error(R.drawable.img_music_error).into(holder.mImgAvatar)
         holder.mLinerBody.setOnClickListener { mOnItemClickSongListener!!.clickOpenItem(mListSong,position) }
-
+        holder.mImgMenu.setOnClickListener { mOnItemClickSongListener!!.clickDeleteItem(mListSong,position) }
     }
 
     override fun getItemCount(): Int {

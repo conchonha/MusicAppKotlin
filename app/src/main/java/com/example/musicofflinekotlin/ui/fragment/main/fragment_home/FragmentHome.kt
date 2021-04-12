@@ -58,10 +58,12 @@ class FragmentHome : BaseFragment(), OnItemClickSongListener {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView, songList: List<Song>) {
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        mAdapter = AdapterRecyclerView()
-        recyclerView.adapter = mAdapter
-        mAdapter!!.initData(songList, this)
+        recyclerView.apply {
+            mAdapter = AdapterRecyclerView()
+            this.setHasFixedSize(true)
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = mAdapter
+            mAdapter!!.initData(songList, this@FragmentHome)
+        }
     }
 }

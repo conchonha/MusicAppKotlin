@@ -133,7 +133,7 @@ class MusicListFragment : BaseFragment(), OnListenerBroadCast, View.OnClickListe
         Intent(context, PlayMusicServices::class.java).apply {
             putExtra(Constain.keyPosition, mPosition)
             startForegroundService(context!!, this)
+            onCompletionListener()
         }
-        onCompletionListener()
     }
 }

@@ -127,8 +127,8 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener, OnListenerBroa
         Intent(this, PlayMusicServices::class.java).apply {
             putExtra(Constain.keyPosition, mPosition)
             startForegroundService(this)
+            onCompletionListener()
         }
-        onCompletionListener()
     }
 
     override fun initViewModel() {

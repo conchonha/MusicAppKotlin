@@ -34,17 +34,21 @@ class MainActivity : BaseActivity(){
     private fun initViewpager() {
         mMainViewPagerAdappter = MainViewpagerAdapter(supportFragmentManager, this)
         mViewPager.adapter = mMainViewPagerAdappter
-        mTabLayout.setupWithViewPager(mViewPager)
 
-        mTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home)
-        mTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_search)
-        mTabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_libary)
+        mTabLayout.apply {
+            setupWithViewPager(mViewPager)
+            getTabAt(0)!!.setIcon(R.drawable.ic_home)
+            getTabAt(1)!!.setIcon(R.drawable.ic_search)
+            getTabAt(2)!!.setIcon(R.drawable.ic_libary)
+        }
     }
 
     private fun setUpDataRoom() {
         mMediaManagerMediaPlayer = ManagerMediaPlayer(this)
 
-        mMainViewModel!!.deleteTableSong()
-        mMainViewModel!!.insertListSong(mMediaManagerMediaPlayer!!.getListSong())
+        mMainViewModel!!.apply {
+            deleteTableSong()
+            insertListSong(mMediaManagerMediaPlayer!!.getListSong())
+        }
     }
 }

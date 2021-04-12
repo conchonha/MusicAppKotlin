@@ -52,6 +52,15 @@ class MainRepositories private constructor(){
         }.execute()
     }
 
+    fun deleteSong(song: Song){
+        object : AsyncTask<Void?,Void?,Void?>(){
+            override fun doInBackground(vararg params: Void?): Void? {
+                mSongDao!!.delete(song)
+                return null
+            }
+        }.execute()
+    }
+
     fun getListPlayList() : LiveData<List<Song>>{
         return mSongDao!!.getListPlayList()
     }

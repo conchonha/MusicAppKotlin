@@ -3,6 +3,8 @@ package com.example.musicofflinekotlin.utils
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.services.PlayMusicServices
 import com.google.gson.Gson
@@ -20,7 +22,7 @@ class Helpers {
             return "$year-$mounth-$day"
         }
 
-        fun stopService(context : Context) {
+        fun stopService(context: Context) {
             context.stopService(Intent(context, PlayMusicServices::class.java))
         }
 
@@ -40,16 +42,29 @@ class Helpers {
             context.sendBroadcast(intent1)
         }
 
-        fun senPendingIntent(action: String,context: Context,requestCode : Int) : PendingIntent{
+        fun senPendingIntent(action: String, context: Context, requestCode: Int) : PendingIntent{
             var intent1 = Intent(Constain.sendActionBroadCastServices)
             intent1.putExtra(Constain.keyAction, action)
 
-            return PendingIntent.getBroadcast(context,requestCode,intent1,PendingIntent.FLAG_UPDATE_CURRENT)
+            return PendingIntent.getBroadcast(
+                context,
+                requestCode,
+                intent1,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
         }
 
         fun getSongListFromString(songList: String?) : List<Song>?{
             var type = object : TypeToken<List<Song>>(){}.type
-            return Gson().fromJson(songList,type)
+            return Gson().fromJson(songList, type)
+        }
+
+        fun hideFragmentDialog(fragmentManager: Fragment, content: String?) {
+            val prev = fragmentManager.fragmentManager!!.findFragmentByTag(content)
+            if (prev != null) {
+                val df = prev as DialogFragment
+                df.dismiss()
+            }
         }
     }
 }

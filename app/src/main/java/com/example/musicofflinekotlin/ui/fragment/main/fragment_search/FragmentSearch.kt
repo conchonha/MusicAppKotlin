@@ -83,16 +83,20 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
 
     private fun initRecyclerView() {
         var recyclerView = mView!!.findViewById<RecyclerView>(R.id.mRecyclerViewHistory)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(context, 1)
-        recyclerView.adapter = mAdapter
+
+        recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(context, 1)
+            adapter = mAdapter
+        }
     }
 
     override fun clickOpenItem(songList: List<Song>, position: Int) {
         mBoolean = true
-        var song = songList[position]
-        song.mHistory = 1
-        mMainViewModel!!.updateSong(song)
+        songList[position].apply {
+            this.mHistory = 1
+            mMainViewModel!!.updateSong(this)
+        }
 
         Intent(context, PlayingSongActivity::class.java).apply {
             putExtra(Constain.keySongList, Gson().toJson(songList))
@@ -102,9 +106,10 @@ class FragmentSearch : BaseFragment(), OnItemClickSongListener {
     }
 
     override fun clickDeleteItem(songList: List<Song>, position: Int) {
-        mBoolean = true
-        var song = songList[position]
-        song.mHistory = 0
-        mMainViewModel!!.updateSong(song)
+        songList[position].apply {
+            mBoolean = true
+            this.mHistory = 0
+            mMainViewModel!!.updateSong(this)
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.musicofflinekotlin.utils
 
 class Constain {
     companion object {
+        const val keyBottomSheetDialog: String = "keyBottomSheetDialog"
         const val keyActionClose: String = "keyActionClose"
         const val pathUriImgAlbum: String = "content://media/external/audio/albumart/"
         const val sendActionBroadCastServices: String = "sendActionBroadCastServices"
