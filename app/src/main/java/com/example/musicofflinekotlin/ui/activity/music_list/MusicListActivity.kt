@@ -44,6 +44,7 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
 
     override fun onListenerClicked() {
         mImgBack.setOnClickListener(this)
+        mCardViewPlayRandom.setOnClickListener(this)
     }
 
     override fun onInit() {
