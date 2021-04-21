@@ -1,6 +1,5 @@
 package com.example.musicofflinekotlin.ui.fragment.music_list
 
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startForegroundService
 import androidx.lifecycle.ViewModelProvider
 import com.example.musicofflinekotlin.R
 import com.example.musicofflinekotlin.app.MyApplication
@@ -56,7 +54,15 @@ class MusicListFragment : BaseFragment(), OnListenerBroadCast, View.OnClickListe
     }
 
     override fun init() {
+        getDataMusicIsPlay()
         onCompletionListener()
+    }
+
+    private fun getDataMusicIsPlay() {
+        Helpers.sendBoardCastServices(
+            Constain.keyActionMusicIsPlay,
+            context!!
+        )
     }
 
     private fun onCompletionListener() {
@@ -93,7 +99,7 @@ class MusicListFragment : BaseFragment(), OnListenerBroadCast, View.OnClickListe
 
     override fun onListenerActionClose(position: Int, songList: List<Song>, action: String) {
         mPosition = position
-        mImgPause.setImageResource(R.drawable.ic_pause_white)
+        mImgPause.setImageResource(if (PlayMusicServices.mMediaPlayer!!.isPlaying) R.drawable.ic_pause_white else R.drawable.ic_play_white)
         if (action == Constain.keyActionClose) {
             mCheckServices = true
             mImgPause.setImageResource(R.drawable.ic_play_white)
@@ -118,22 +124,13 @@ class MusicListFragment : BaseFragment(), OnListenerBroadCast, View.OnClickListe
             )
             R.id.mImgPause -> {
                 if (mCheckServices) {
-                    onStartServices()
+                    Helpers.onStartServices(context!!,mPosition,::onCompletionListener)
                     mCheckServices = false
                 }
                 mImgPause.setImageResource(if (PlayMusicServices.mMediaPlayer!!.isPlaying) R.drawable.ic_play_white else R.drawable.ic_pause_white)
                 Helpers.sendBoardCastServices(Constain.keyActionPlay, context!!)
             }
             R.id.mImgNext -> Helpers.sendBoardCastServices(Constain.keyActionPrevious, context!!)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun onStartServices() {
-        Intent(context, PlayMusicServices::class.java).apply {
-            putExtra(Constain.keyPosition, mPosition)
-            startForegroundService(context!!, this)
-            onCompletionListener()
         }
     }
 }

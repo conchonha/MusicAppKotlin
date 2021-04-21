@@ -28,6 +28,7 @@ class PlayMusicServices : Service() {
 
     companion object{
         var mMediaPlayer: MediaPlayer? = null
+        var mRanDom = false
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -73,17 +74,15 @@ class PlayMusicServices : Service() {
                             starForegroundServices(context,if (mMediaPlayer!!.isPlaying) R.drawable.ic_play_black else R.drawable.ic_pause_black)
                             if (mMediaPlayer!!.isPlaying) mMediaPlayer!!.pause() else mMediaPlayer!!.start()
                         }
-
                         Constain.keyActionNext -> {
-                            mPosition = if (mPosition >= mList!!.size - 1) 0 else ++mPosition
-
+                            mPosition = if(mRanDom) (mList!!.indices).random() else if (mPosition >= mList!!.size - 1) 0 else ++mPosition
                             sendBroadCastPlayingSongActivity(null)
                             starMediaPlayWithUri()
                             starForegroundServices(context,R.drawable.ic_pause_black)
                         }
                         Constain.keyActionPrevious -> {
                             mPosition =
-                                if (mPosition >= 1 && mList!!.size > 1) --mPosition else mList!!.size - 1
+                                if(mRanDom) (mList!!.indices).random() else if (mPosition >= 1 && mList!!.size > 1) --mPosition else mList!!.size - 1
                             sendBroadCastPlayingSongActivity(null)
                             starMediaPlayWithUri()
                             starForegroundServices(context, R.drawable.ic_pause_black)
@@ -91,6 +90,9 @@ class PlayMusicServices : Service() {
                         Constain.keyActionClose -> {
                             sendBroadCastPlayingSongActivity(Constain.keyActionClose)
                             stopSelf()
+                        }
+                        Constain.keyActionMusicIsPlay->{
+                            sendBroadCastPlayingSongActivity(null)
                         }
                         else -> Toast.makeText(
                             context,

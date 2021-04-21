@@ -1,6 +1,5 @@
 package com.example.musicofflinekotlin.ui.activity.playing_song
 
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
@@ -64,7 +63,7 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener, OnListenerBroa
     private fun onCompletionListener() {
         MusicListFragment.mRunnable?.let {
             MusicListFragment.mHandler?.removeCallbacks(
-                MusicListFragment.mRunnable!!
+               it
             )
         }
         var runnable = Runnable {
@@ -118,16 +117,7 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener, OnListenerBroa
 
             mPlayingSongViewModel!!.saveSongListSharedPreferences(intent.getStringExtra(Constain.keySongList))
 
-            onStartServices()
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun onStartServices() {
-        Intent(this, PlayMusicServices::class.java).apply {
-            putExtra(Constain.keyPosition, mPosition)
-            startForegroundService(this)
-            onCompletionListener()
+            Helpers.onStartServices(this,mPosition,::onCompletionListener)
         }
     }
 
@@ -143,9 +133,10 @@ class PlayingSongActivity : BaseActivity(), View.OnClickListener, OnListenerBroa
         when (v!!.id) {
             R.id.mImgPause -> {
                 if (mCheckServices) {
-                    onStartServices()
+                    Helpers.onStartServices(this,mPosition,::onCompletionListener)
                     mCheckServices = false
                 }
+                mImgPause.setImageResource(if (PlayMusicServices.mMediaPlayer!!.isPlaying) R.drawable.ic_play_white else R.drawable.ic_pause_white)
                 Helpers.sendBoardCastServices(Constain.keyActionPlay, this)
             }
             R.id.mImgNext -> onMusicNext()

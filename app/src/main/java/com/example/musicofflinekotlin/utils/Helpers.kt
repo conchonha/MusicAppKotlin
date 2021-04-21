@@ -3,6 +3,7 @@ package com.example.musicofflinekotlin.utils
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.core.content.ContextCompat.startForegroundService
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.musicofflinekotlin.room.table.Song
@@ -64,6 +65,14 @@ class Helpers {
             if (prev != null) {
                 val df = prev as DialogFragment
                 df.dismiss()
+            }
+        }
+
+        fun onStartServices(context : Context,position : Int,action : ()->Unit?){
+            Intent(context, PlayMusicServices::class.java).apply {
+                putExtra(Constain.keyPosition, position)
+                startForegroundService(context,this)
+                action()
             }
         }
     }

@@ -10,6 +10,7 @@ class Constain {
         const val keyActionPlay: String = "keyActionPlay"
         const val keyActionNext: String = "keyActionNext"
         const val keyActionPrevious: String = "keyActionPrevious"
+        const val keyActionMusicIsPlay: String = "keyActionMusicIsPlay"
         const val keyAction: String ="keyAction"
         const val keySongList: String = "keySongList"
         const val keyPosition: String = "keyPosition"

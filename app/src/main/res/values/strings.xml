@@ -25,4 +25,5 @@
     <string name="lbl_add_playlist">Thêm vào playlist</string>
     <string name="lbl_add_favorite">Thêm vào yêu thích</string>
     <string name="lbl_delete">Xóa</string>
+    <string name="lbl_off_random">Tắt Phát Ngẫu Nhiên</string>
 </resources>

@@ -49,6 +49,7 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
 
     override fun onInit() {
         initRecyclerView()
+        updateUi()
     }
 
     private fun updateUi() {
@@ -78,6 +79,14 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.mImgBack -> finish()
+            R.id.mCardViewPlayRandom -> {
+                clickOpenItem(mSongList,mSongList.indices.random())
+                PlayMusicServices.mRanDom = !PlayMusicServices.mRanDom
+                mTxtTextRanDomMusic.text =
+                    if (PlayMusicServices.mRanDom) getString(R.string.lbl_off_random) else getString(
+                        R.string.lbl_play_random
+                    )
+            }
         }
     }
 
