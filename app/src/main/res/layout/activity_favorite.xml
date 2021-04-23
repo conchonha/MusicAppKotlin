@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_background"
+    tools:context=".ui.activity.favorite.FavoriteActivity">
+
+    <RelativeLayout
+        android:id="@+id/mRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/mImgBack"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/mTxtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:text="@string/lbl_favorite"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mTxtTitle"
+            android:layout_centerHorizontal="true"
+            android:text="@string/lbl_all"
+            android:textColor="@color/hB6B6B6"
+            android:textSize="@dimen/_14ssp" />
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mCardViewPlayRandom"
+        android:layout_width="@dimen/_191sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_below="@+id/mRelative"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/h00FF38"
+        app:cardCornerRadius="@dimen/_23sdp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/lbl_play_random"
+            android:id="@+id/mTxtTextRanDomMusic"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mCardViewPlayRandom"
+        android:layout_marginLeft="@dimen/_22sdp"
+        android:layout_above="@+id/mRelativeBottom"
+        android:id="@+id/mRecyclerViewFavorite"
+        android:layout_marginBottom="@dimen/_24sdp"
+        android:layout_marginTop="@dimen/_31sdp"
+        android:layout_marginRight="@dimen/_14sdp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_41sdp"
+        android:id="@+id/mRelativeBottom"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:background="@color/h262626">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment1"
+            android:name="com.example.musicofflinekotlin.ui.fragment.music_list.MusicListFragment"/>
+    </RelativeLayout>
+
+</RelativeLayout>

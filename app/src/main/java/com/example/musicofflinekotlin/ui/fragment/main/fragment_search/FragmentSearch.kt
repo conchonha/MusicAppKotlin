@@ -20,6 +20,7 @@ import com.example.musicofflinekotlin.model.TextWatcher
 import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.ui.activity.main.MainViewModel
 import com.example.musicofflinekotlin.ui.activity.playing_song.PlayingSongActivity
+import com.example.musicofflinekotlin.ui.adapter.AdapterRecycler
 import com.example.musicofflinekotlin.utils.Constain
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.layout_fragment_search.*

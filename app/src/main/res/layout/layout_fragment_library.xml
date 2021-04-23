@@ -138,6 +138,7 @@
             android:layout_height="0dp"
             android:layout_columnWeight="1"
             android:layout_row="1"
+            android:id="@+id/mCardFavorite"
             android:layout_column="1"
             android:layout_marginTop="@dimen/_82sdp"
             android:foreground="?attr/selectableItemBackground"

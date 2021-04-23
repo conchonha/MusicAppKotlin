@@ -1,4 +1,4 @@
-package com.example.musicofflinekotlin.ui.fragment.main.fragment_search
+package com.example.musicofflinekotlin.ui.adapter
 
 import android.net.Uri
 import android.view.View

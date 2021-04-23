@@ -1,4 +1,4 @@
-package com.example.musicofflinekotlin.ui.activity.music_list
+package com.example.musicofflinekotlin.ui.activity.favorite
 
 import android.content.Intent
 import android.os.Build
@@ -18,28 +18,27 @@ import com.example.musicofflinekotlin.callback.OnItemClickSongListener
 import com.example.musicofflinekotlin.room.table.Song
 import com.example.musicofflinekotlin.services.PlayMusicServices
 import com.example.musicofflinekotlin.ui.activity.playing_song.PlayingSongActivity
-import com.example.musicofflinekotlin.ui.dialog.ShowBottomSheetDialog
+import com.example.musicofflinekotlin.ui.adapter.AdapterRecycler
 import com.example.musicofflinekotlin.utils.Constain
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_music_list.*
-import kotlinx.android.synthetic.main.activity_music_list.mRelativeBottom
+import kotlinx.android.synthetic.main.activity_favorite.*
 
-class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongListener {
-    private var mMusicListViewModel : MusicListViewModel? = null
+class FavoriteActivity : BaseActivity(),View.OnClickListener,OnItemClickSongListener {
+    private var mMusicListViewModel : FavoriteViewModel? = null
     private var mAdapter : AdapterRecycler = AdapterRecycler()
     private var mSongList: List<Song> = listOf()
 
     override fun initViewModel() {
-        mMusicListViewModel = ViewModelProvider(this,MyApplication.Holder.factory!!)[MusicListViewModel::class.java]
+        mMusicListViewModel = ViewModelProvider(this,MyApplication.Holder.factory!!)[FavoriteViewModel::class.java]
 
-        mMusicListViewModel!!.getListSong().observe(this, Observer { songList->
+        mMusicListViewModel!!.getListFavorite().observe(this, Observer { songList->
             mSongList = songList
-            mAdapter.setupData(songList,this)
+            mAdapter.setupData(songList,this,true)
         })
     }
 
     override fun getContentView(): Int {
-        return R.layout.activity_music_list
+        return R.layout.activity_favorite
     }
 
     override fun onListenerClicked() {
@@ -54,10 +53,6 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
 
     private fun updateUi() {
         PlayingSongActivity.mRunnable?.let { PlayingSongActivity.mHandler?.removeCallbacks(it) }
-        mTxtTextRanDomMusic.text =
-            if (PlayMusicServices.mRanDom) getString(R.string.lbl_off_random) else getString(
-                R.string.lbl_play_random
-            )
 
         var runnable = Runnable {
             if(PlayMusicServices.mMediaPlayer == null){
@@ -70,10 +65,10 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
     }
 
     private fun initRecyclerView() {
-        var recycler = findViewById<RecyclerView>(R.id.mRecyclerViewMusicList)
+        var recycler = findViewById<RecyclerView>(R.id.mRecyclerViewFavorite)
         recycler.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(this@MusicListActivity,1)
+            layoutManager = GridLayoutManager(this@FavoriteActivity,1)
             adapter = mAdapter
             mAdapter.notifyDataSetChanged()
         }
@@ -84,10 +79,8 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
         when(v!!.id){
             R.id.mImgBack -> finish()
             R.id.mCardViewPlayRandom -> {
+                clickOpenItem(mSongList,mSongList.indices.random())
                 PlayMusicServices.mRanDom = !PlayMusicServices.mRanDom
-                if(PlayMusicServices.mRanDom){
-                    clickOpenItem(mSongList,mSongList.indices.random())
-                }
                 mTxtTextRanDomMusic.text =
                     if (PlayMusicServices.mRanDom) getString(R.string.lbl_off_random) else getString(
                         R.string.lbl_play_random
@@ -105,8 +98,8 @@ class MusicListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongLis
     }
 
     override fun clickDeleteItem(songList: List<Song>, position: Int) {
-        ShowBottomSheetDialog().show(supportFragmentManager,Constain.keyBottomSheetDialog)
-        mMusicListViewModel!!.setDataSongMutableLive(songList[position])
+//        ShowBottomSheetDialog().show(supportFragmentManager,Constain.keyBottomSheetDialog)
+//        mMusicListViewModel!!.setDataSongMutableLive(songList[position])
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

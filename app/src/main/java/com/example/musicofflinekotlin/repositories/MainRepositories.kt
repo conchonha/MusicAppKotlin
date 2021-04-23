@@ -69,6 +69,10 @@ class MainRepositories private constructor(){
         return mSongDao!!.getListMyHistory()
     }
 
+    fun getListFavorite() : LiveData<List<Song>>{
+        return mSongDao!!.getListMyFavourite()
+    }
+
     fun searchSong(search : String?) : LiveData<List<Song>>{
         return mSongDao!!.searchSong(search)
     }
