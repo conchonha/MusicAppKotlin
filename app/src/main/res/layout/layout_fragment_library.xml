@@ -100,6 +100,7 @@
             android:layout_marginTop="@dimen/_82sdp"
             android:layout_column="0"
             android:layout_rowWeight="1"
+            android:id="@+id/mCardPlayList"
             android:layout_columnWeight="1"
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"

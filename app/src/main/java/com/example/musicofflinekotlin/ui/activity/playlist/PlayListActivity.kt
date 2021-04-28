@@ -1,4 +1,4 @@
-package com.example.musicofflinekotlin.ui.activity.favorite
+package com.example.musicofflinekotlin.ui.activity.playlist
 
 import android.content.Intent
 import android.os.Build
@@ -28,22 +28,22 @@ import kotlinx.android.synthetic.main.activity_favorite.mRelativeBottom
 import kotlinx.android.synthetic.main.activity_favorite.mTxtTextRanDomMusic
 import kotlinx.android.synthetic.main.activity_music_list.*
 
-class FavoriteActivity : BaseActivity(),View.OnClickListener,OnItemClickSongListener {
-    private var mFavoriteViewModel : FavoriteViewModel? = null
+class PlayListActivity : BaseActivity(),View.OnClickListener,OnItemClickSongListener {
+    private var mPlayListViewModel : PlayListViewModel? = null
     private var mAdapter : AdapterRecycler = AdapterRecycler()
     private var mSongList: List<Song> = listOf()
 
     override fun initViewModel() {
-        mFavoriteViewModel = ViewModelProvider(this,MyApplication.Holder.factory!!)[FavoriteViewModel::class.java]
+        mPlayListViewModel = ViewModelProvider(this,MyApplication.Holder.factory!!)[PlayListViewModel::class.java]
 
-        mFavoriteViewModel!!.getListFavorite().observe(this, Observer { songList->
+        mPlayListViewModel!!.getPlayList().observe(this, Observer { songList->
             mSongList = songList
             mAdapter.setupData(songList,this,true)
         })
     }
 
     override fun getContentView(): Int {
-        return R.layout.activity_favorite
+        return R.layout.activity_play_list
     }
 
     override fun onListenerClicked() {
@@ -74,10 +74,10 @@ class FavoriteActivity : BaseActivity(),View.OnClickListener,OnItemClickSongList
     }
 
     private fun initRecyclerView() {
-        var recycler = findViewById<RecyclerView>(R.id.mRecyclerViewFavorite)
+        var recycler = findViewById<RecyclerView>(R.id.mRecyclerViewPlayList)
         recycler.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(this@FavoriteActivity,1)
+            layoutManager = GridLayoutManager(this@PlayListActivity,1)
             adapter = mAdapter
             mAdapter.notifyDataSetChanged()
         }
@@ -88,16 +88,17 @@ class FavoriteActivity : BaseActivity(),View.OnClickListener,OnItemClickSongList
         when(v!!.id){
             R.id.mImgBack -> finish()
             R.id.mCardViewPlayRandom -> {
-                if(PlayMusicServices.mRanDom){
-                    if(mSongList.isNotEmpty()){
-                        clickOpenItem(mSongList,mSongList.indices.random())
-                    }
-                }
                 PlayMusicServices.mRanDom = !PlayMusicServices.mRanDom
                 mTxtTextRanDomMusic.text =
                     if (PlayMusicServices.mRanDom) getString(R.string.lbl_off_random) else getString(
                         R.string.lbl_play_random
                     )
+
+                if(PlayMusicServices.mRanDom){
+                    if(mSongList.isNotEmpty()){
+                        clickOpenItem(mSongList,mSongList.indices.random())
+                    }
+                }
             }
         }
     }
@@ -112,8 +113,8 @@ class FavoriteActivity : BaseActivity(),View.OnClickListener,OnItemClickSongList
 
     override fun clickDeleteItem(songList: List<Song>, position: Int) {
         songList[position].let {
-            it.mFavourite = 0
-            mFavoriteViewModel!!.updateSong(it)
+            it.mPlayList = 0
+            mPlayListViewModel!!.updateSong(it)
         }
     }
 

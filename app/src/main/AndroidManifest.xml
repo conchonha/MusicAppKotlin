@@ -21,6 +21,9 @@
             android:name=".ui.activity.favorite.FavoriteActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.playlist.PlayListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.music_list.MusicListActivity"
             android:screenOrientation="portrait" />
         <activity
