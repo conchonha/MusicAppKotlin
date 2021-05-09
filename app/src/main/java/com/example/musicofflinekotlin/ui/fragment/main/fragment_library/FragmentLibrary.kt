@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.musicofflinekotlin.R
 import com.example.musicofflinekotlin.app.MyApplication
 import com.example.musicofflinekotlin.base.BaseFragment
+import com.example.musicofflinekotlin.ui.activity.album.AlbumActivity
 import com.example.musicofflinekotlin.ui.activity.favorite.FavoriteActivity
 import com.example.musicofflinekotlin.ui.activity.main.MainViewModel
 import com.example.musicofflinekotlin.ui.activity.music_list.MusicListActivity
@@ -30,6 +31,7 @@ class FragmentLibrary : BaseFragment(),View.OnClickListener {
         mView!!.findViewById<CardView>(R.id.mCardSong).setOnClickListener(this)
         mView!!.findViewById<CardView>(R.id.mCardFavorite).setOnClickListener(this)
         mView!!.findViewById<CardView>(R.id.mCardPlayList).setOnClickListener(this)
+        mView!!.findViewById<CardView>(R.id.mCardAlbum).setOnClickListener(this)
     }
 
     override fun getContentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,6 +44,7 @@ class FragmentLibrary : BaseFragment(),View.OnClickListener {
             R.id.mCardSong -> startActivity(Intent(context,MusicListActivity::class.java))
             R.id.mCardFavorite->startActivity(Intent(context,FavoriteActivity::class.java))
             R.id.mCardPlayList->startActivity(Intent(context,PlayListActivity::class.java))
+            R.id.mCardAlbum->startActivity(Intent(context,AlbumActivity::class.java))
         }
     }
 }

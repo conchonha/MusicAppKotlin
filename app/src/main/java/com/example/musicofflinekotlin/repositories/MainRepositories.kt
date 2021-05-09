@@ -43,6 +43,10 @@ class MainRepositories private constructor(){
         return mSongDao!!.getListSong()
     }
 
+    fun getListAlbum() : LiveData<List<Song>>{
+        return mSongDao!!.getListAlbum()
+    }
+
     fun updateSong(song: Song){
         object : AsyncTask<Void?,Void?,Void?>(){
             override fun doInBackground(vararg params: Void?): Void? {

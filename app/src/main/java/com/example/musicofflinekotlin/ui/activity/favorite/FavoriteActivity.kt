@@ -88,16 +88,17 @@ class FavoriteActivity : BaseActivity(),View.OnClickListener,OnItemClickSongList
         when(v!!.id){
             R.id.mImgBack -> finish()
             R.id.mCardViewPlayRandom -> {
-                if(PlayMusicServices.mRanDom){
-                    if(mSongList.isNotEmpty()){
-                        clickOpenItem(mSongList,mSongList.indices.random())
-                    }
-                }
                 PlayMusicServices.mRanDom = !PlayMusicServices.mRanDom
                 mTxtTextRanDomMusic.text =
                     if (PlayMusicServices.mRanDom) getString(R.string.lbl_off_random) else getString(
                         R.string.lbl_play_random
                     )
+
+                if(PlayMusicServices.mRanDom){
+                    if(mSongList.isNotEmpty()){
+                        clickOpenItem(mSongList,mSongList.indices.random())
+                    }
+                }
             }
         }
     }

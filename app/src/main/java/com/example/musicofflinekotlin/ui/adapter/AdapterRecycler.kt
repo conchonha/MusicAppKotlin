@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso
 class AdapterRecycler : RecyclerView.Adapter<AdapterRecycler.ViewHolder>() {
     private var mListSong: List<Song> = listOf()
     private var mOnItemClickSongListener: OnItemClickSongListener? = null
-    private var mCheckHistory = false
+    private var mCheck = false
 
     fun setupData(
         songList: List<Song>,
@@ -26,7 +26,7 @@ class AdapterRecycler : RecyclerView.Adapter<AdapterRecycler.ViewHolder>() {
     ) {
         mListSong = songList
         mOnItemClickSongListener = onItemClickSongListener
-        mCheckHistory = checkHistory
+        mCheck = checkHistory
         notifyDataSetChanged()
     }
 
@@ -44,7 +44,7 @@ class AdapterRecycler : RecyclerView.Adapter<AdapterRecycler.ViewHolder>() {
         Picasso.get().load(Uri.parse(song.mPathUriImage)).error(R.drawable.img_music_error)
             .into(holder.mImgAlbum)
 
-        if (!mCheckHistory) holder.mImgClose.visibility = GONE else holder.mImgClose.visibility =
+        if (!mCheck) holder.mImgClose.visibility = GONE else holder.mImgClose.visibility =
             VISIBLE
 
         holder.mRelativeBox.setOnClickListener {

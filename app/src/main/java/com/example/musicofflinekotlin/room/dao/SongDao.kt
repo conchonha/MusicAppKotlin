@@ -9,6 +9,9 @@ interface SongDao {
     @Query("SELECT * FROM song")
     fun getListSong(): LiveData<List<Song>>
 
+    @Query("SELECT DISTINCT idAlbum,title FROM song")
+    fun getListAlbum(): LiveData<List<Song>>
+
     @Query("SELECT * FROM song WHERE playList = 1")
     fun getListPlayList(): LiveData<List<Song>>
 

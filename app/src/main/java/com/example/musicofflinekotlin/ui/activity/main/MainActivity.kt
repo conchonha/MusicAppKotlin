@@ -47,7 +47,7 @@ class MainActivity : BaseActivity(){
         mMediaManagerMediaPlayer = ManagerMediaPlayer(this)
 
         mMainViewModel!!.apply {
-            deleteTableSong()
+           // deleteTableSong()
             insertListSong(mMediaManagerMediaPlayer!!.getListSong())
         }
     }
